@@ -12,9 +12,7 @@ public class Employer extends AbstractEntity {
     private String location;
 
 
-    public Employer() {
-
-    }
+    public Employer() {}
 
     public String getLocation() {
         return location;

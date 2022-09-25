@@ -4,6 +4,7 @@ import mockit.Expectations;
 import mockit.Mocked;
 import org.junit.jupiter.api.Test;
 import org.launchcode.techjobs.persistent.controllers.EmployerController;
+import org.launchcode.techjobs.persistent.controllers.SkillController;
 import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
@@ -426,7 +427,7 @@ public class TestTaskTwo extends AbstractTest {
 
         // I edited this to make the int a string so the code would work 9/25
         new Expectations() {{
-           employerRepository.findById(String.valueOf(1));
+           employerRepository.findById(1);
         }};
 
         Model model = new ExtendedModelMap();
@@ -440,107 +441,107 @@ public class TestTaskTwo extends AbstractTest {
 //    /*
 //     * Verifies that the skillRepository field is correctly defined
 //     * */
-//    @Test
-//    public void testSkillRepositoryDefinition () throws ClassNotFoundException {
-//        Class skillController = getClassByName("controllers.SkillController");
-//        Field skillRepositoryField = null;
-//
-//        try {
-//            skillRepositoryField = skillController.getDeclaredField("skillRepository");
-//        } catch (NoSuchFieldException e) {
-//            fail("SkillController does not have an skillRepository field");
-//        }
-//
-//        assertEquals(SkillRepository.class, skillRepositoryField.getType(), "skillRepository must be of type SkillRepository");
-//        assertNotNull(skillRepositoryField.getAnnotation(Autowired.class), "skillRepository must have the @Autowired annotation");
-//    }
-//
-//    /*
-//     * Verifies that SkillController.index is properly defined
-//     * */
-//    @Test
-//    public void testSkillControllerIndexMethodDefinition (@Mocked SkillRepository skillRepository) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-//        Class skillControllerClass = getClassByName("controllers.SkillController");
-//        Method indexMethod = null;
-//
-//        // Verify that the index method exists
-//        try {
-//            indexMethod = skillControllerClass.getMethod("index", Model.class);
-//        } catch (NoSuchMethodException e) {
-//            fail("SkillController must have an index method that takes a parameter of type Model");
-//        }
-//
-//        Annotation annotation = indexMethod.getDeclaredAnnotation(RequestMapping.class);
-//
-//        // Verify that index has a routing annotation. We need to accommodate
-//        // both @RequestMapping and @GetMapping.
-//        if (annotation == null) {
-//            annotation = indexMethod.getDeclaredAnnotation(GetMapping.class);
-//        }
-//
-//        assertNotNull(annotation, "index method must have a routing annotation");
-//
-//        Method annotationValueMethod = annotation.getClass().getMethod("value");
-//        String[] values = ((String[]) annotationValueMethod.invoke(annotation));
-//        assertEquals(1, values.length, "The routing annotation for index must have a value");
-//        assertEquals("", values[0], "The value parameter for the routing annotation must be the empty string");
-//
-//        // Verify that index calls skillRepository.findAll()
-//        new Expectations() {{
-//            skillRepository.findAll();
-//        }};
-//
-//        Model model = new ExtendedModelMap();
-//        SkillController skillController = new SkillController();
-//        Field skillRepositoryField = skillControllerClass.getDeclaredField("skillRepository");
-//        skillRepositoryField.setAccessible(true);
-//        skillRepositoryField.set(skillController, skillRepository);
-//        indexMethod.invoke(skillController, model);
-//    }
-//
-//    /*
-//     * Verify that processAddSkillForm saves a new skill to the database
-//     * */
-//    @Test
-//    public void testNewSkillIsSaved (@Mocked SkillRepository skillRepository, @Mocked Errors errors) throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
-//        Class skillControllerClass = getClassByName("controllers.SkillController");
-//        Method processAddSkillFormMethod = skillControllerClass.getMethod("processAddSkillForm", Skill.class, Errors.class, Model.class);
-//        Method saveMethod = SkillRepository.class.getMethod("save", Object.class);
-//
-//        Skill skill = new Skill();
-//        skill.setName("Java");
-//
-//        new Expectations() {{
-//            saveMethod.invoke(skillRepository, skill);
-//        }};
-//
-//        Model model = new ExtendedModelMap();
-//        SkillController skillController = new SkillController();
-//        Field skillRepositoryField = skillControllerClass.getDeclaredField("skillRepository");
-//        skillRepositoryField.setAccessible(true);
-//        skillRepositoryField.set(skillController, skillRepository);
-//        processAddSkillFormMethod.invoke(skillController, skill, errors, model);
-//    }
-//
-//    /*
-//     * Verifies that displayViewSkill calls findById to retrieve an skill object
-//     * */
-//    @Test
-//    public void testDisplayViewSkillCallsFindById (@Mocked SkillRepository skillRepository) throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
-//        Class skillControllerClass = getClassByName("controllers.SkillController");
-//        Method displayViewSkillMethod = skillControllerClass.getMethod("displayViewSkill", Model.class, int.class);
-//
-//        new Expectations() {{
-//            skillRepository.findById(1);
-//        }};
-//
-//        Model model = new ExtendedModelMap();
-//        SkillController skillController = new SkillController();
-//        Field skillRepositoryField = skillControllerClass.getDeclaredField("skillRepository");
-//        skillRepositoryField.setAccessible(true);
-//        skillRepositoryField.set(skillController, skillRepository);
-//        displayViewSkillMethod.invoke(skillController, model, 1);
-//    }
+    @Test
+    public void testSkillRepositoryDefinition () throws ClassNotFoundException {
+        Class skillController = getClassByName("controllers.SkillController");
+        Field skillRepositoryField = null;
+
+        try {
+            skillRepositoryField = skillController.getDeclaredField("skillRepository");
+        } catch (NoSuchFieldException e) {
+            fail("SkillController does not have an skillRepository field");
+        }
+
+        assertEquals(SkillRepository.class, skillRepositoryField.getType(), "skillRepository must be of type SkillRepository");
+        assertNotNull(skillRepositoryField.getAnnotation(Autowired.class), "skillRepository must have the @Autowired annotation");
+    }
+
+    /*
+     * Verifies that SkillController.index is properly defined
+     * */
+    @Test
+    public void testSkillControllerIndexMethodDefinition (@Mocked SkillRepository skillRepository) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+        Class skillControllerClass = getClassByName("controllers.SkillController");
+        Method indexMethod = null;
+
+        // Verify that the index method exists
+        try {
+            indexMethod = skillControllerClass.getMethod("index", Model.class);
+        } catch (NoSuchMethodException e) {
+            fail("SkillController must have an index method that takes a parameter of type Model");
+        }
+
+        Annotation annotation = indexMethod.getDeclaredAnnotation(RequestMapping.class);
+
+        // Verify that index has a routing annotation. We need to accommodate
+        // both @RequestMapping and @GetMapping.
+        if (annotation == null) {
+            annotation = indexMethod.getDeclaredAnnotation(GetMapping.class);
+        }
+
+        assertNotNull(annotation, "index method must have a routing annotation");
+
+        Method annotationValueMethod = annotation.getClass().getMethod("value");
+        String[] values = ((String[]) annotationValueMethod.invoke(annotation));
+        assertEquals(1, values.length, "The routing annotation for index must have a value");
+        assertEquals("", values[0], "The value parameter for the routing annotation must be the empty string");
+
+        // Verify that index calls skillRepository.findAll()
+        new Expectations() {{
+            skillRepository.findAll();
+        }};
+
+        Model model = new ExtendedModelMap();
+        SkillController skillController = new SkillController();
+        Field skillRepositoryField = skillControllerClass.getDeclaredField("skillRepository");
+        skillRepositoryField.setAccessible(true);
+        skillRepositoryField.set(skillController, skillRepository);
+        indexMethod.invoke(skillController, model);
+    }
+
+    /*
+     * Verify that processAddSkillForm saves a new skill to the database
+     * */
+    @Test
+    public void testNewSkillIsSaved (@Mocked SkillRepository skillRepository, @Mocked Errors errors) throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
+        Class skillControllerClass = getClassByName("controllers.SkillController");
+        Method processAddSkillFormMethod = skillControllerClass.getMethod("processAddSkillForm", Skill.class, Errors.class, Model.class);
+        Method saveMethod = SkillRepository.class.getMethod("save", Object.class);
+
+        Skill skill = new Skill();
+        skill.setName("Java");
+
+        new Expectations() {{
+            saveMethod.invoke(skillRepository, skill);
+        }};
+
+        Model model = new ExtendedModelMap();
+        SkillController skillController = new SkillController();
+        Field skillRepositoryField = skillControllerClass.getDeclaredField("skillRepository");
+        skillRepositoryField.setAccessible(true);
+        skillRepositoryField.set(skillController, skillRepository);
+        processAddSkillFormMethod.invoke(skillController, skill, errors, model);
+    }
+
+    /*
+     * Verifies that displayViewSkill calls findById to retrieve an skill object
+     * */
+    @Test
+    public void testDisplayViewSkillCallsFindById (@Mocked SkillRepository skillRepository) throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
+        Class skillControllerClass = getClassByName("controllers.SkillController");
+        Method displayViewSkillMethod = skillControllerClass.getMethod("displayViewSkill", Model.class, int.class);
+
+        new Expectations() {{
+            skillRepository.findById(1);
+        }};
+
+        Model model = new ExtendedModelMap();
+        SkillController skillController = new SkillController();
+        Field skillRepositoryField = skillControllerClass.getDeclaredField("skillRepository");
+        skillRepositoryField.setAccessible(true);
+        skillRepositoryField.set(skillController, skillRepository);
+        displayViewSkillMethod.invoke(skillController, model, 1);
+    }
 
     // --- END CONTROLLER TESTS --- //
 
